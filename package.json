@@ -1,0 +1,21 @@
+{
+  "name": "amazon-affiliate-hub",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Scalable multi-article Amazon Associates affiliate site (Astro + React islands)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "new": "node scripts/new-article.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.2.0",
+    "@astrojs/react": "^4.2.0",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

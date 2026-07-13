@@ -1,0 +1,111 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Disclosure from '../components/Disclosure.astro'
+import ArticleCard from '../components/ArticleCard.astro'
+import { SITE, categoryBySlug } from '../data/site.js'
+const { article, related = [] } = Astro.props
+const d = article.data
+const cat = categoryBySlug(d.category)
+const cover =
+  d.heroImage ||
+  (d.type === 'review' && d.product?.image) ||
+  (d.type === 'listicle' && d.items?.[0]?.image) ||
+  (d.type === 'comparison' && d.products?.[0]?.image) ||
+  d.pinImage
+
+const updatedText = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+}).format(d.updated)
+const updatedIso = d.updated.toISOString()
+
+const origin = Astro.site ?? SITE.url
+const pageUrl = new URL(Astro.url.pathname, origin).toString()
+
+// ---- JSON-LD structured data (generated from frontmatter) ----
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', origin).toString() },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: cat?.name ?? d.category,
+      item: new URL(`/category/${d.category}`, origin).toString(),
+    },
+    { '@type': 'ListItem', position: 3, name: d.title, item: pageUrl },
+  ],
+}
+
+let articleSchema
+if (d.type === 'review') {
+  // No offers/price on purpose: Amazon Associates policy forbids
+  // publishing prices outside of the API.
+  articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    name: d.title,
+    url: pageUrl,
+    itemReviewed: { '@type': 'Product', name: d.product.name, image: d.product.image },
+    reviewRating: { '@type': 'Rating', ratingValue: d.rating, bestRating: 5 },
+    reviewBody: d.verdict,
+    author: { '@type': 'Organization', name: SITE.author },
+    publisher: { '@type': 'Organization', name: SITE.name },
+    datePublished: updatedIso,
+    dateModified: updatedIso,
+  }
+} else {
+  const listItems =
+    d.type === 'listicle' ? d.items : [...d.products].sort((a, b) => a.order - b.order)
+  articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: d.title,
+    description: d.description,
+    url: pageUrl,
+    dateModified: updatedIso,
+    numberOfItems: listItems.length,
+    itemListElement: listItems.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Product', name: p.name, image: p.image },
+    })),
+  }
+}
+---
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  image={cover}
+  type="article"
+  pinImage={d.pinImage}
+  publishedTime={updatedIso}
+  modifiedTime={updatedIso}
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <article class="article">
+    <div class="wrap">
+      <p class="crumbs">
+        <a href="/">Home</a> ›
+        <a href={`/category/${d.category}`}>{cat?.name ?? d.category}</a>
+      </p>
+      <header class="hero">
+        <p class="hero__eyebrow">Updated {updatedText}</p>
+        <h1 class="hero__title">{d.title}</h1>
+        <p class="hero__subtitle">{d.description}</p>
+      </header>
+      <Disclosure />
+      <slot />
+      {related.length > 0 && (
+        <>
+          <h2 class="section-title">More in {cat?.name ?? d.category}</h2>
+          <div class="grid">
+            {related.map((a) => <ArticleCard article={a} />)}
+          </div>
+        </>
+      )}
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import { SITE } from '../data/site.js'
+const year = new Date().getFullYear()
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__links">
+      <a href="/">Home</a>
+      <a href="/disclosure">Affiliate Disclosure</a>
+    </div>
+    <p>
+      © <span id="footer-year">{year}</span> {SITE.name}. As an Amazon Associate we earn from qualifying
+      purchases. Prices and availability are accurate as of the date shown and
+      are subject to change. {SITE.name} is a participant in the Amazon Services
+      LLC Associates Program.
+    </p>
+  </div>
+</footer>
+<script is:inline>
+  // Keep the copyright year current even between rebuilds (build year is the fallback).
+  document.getElementById('footer-year').textContent = new Date().getFullYear()
+</script>

@@ -1,0 +1,15 @@
+---
+const { value } = Astro.props
+const valid = typeof value === 'number' && Number.isFinite(value)
+const full = Math.floor(value)
+const half = value - full >= 0.5
+const cls = (i) => (i < full ? 'full' : i === full && half ? 'half' : 'empty')
+---
+{valid && (
+  <span class="stars" aria-label={`${value} out of 5`} title={`${value} / 5`}>
+    {[0,1,2,3,4].map((i) => (
+      <span class={`stars__star stars__star--${cls(i)}`}>★</span>
+    ))}
+    <span class="stars__num">{value.toFixed(1)}</span>
+  </span>
+)}

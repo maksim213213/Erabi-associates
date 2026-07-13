@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content'
+import { SITE, CATEGORIES } from '../data/site.js'
+// Category pages are only generated when they have content
+// (src/pages/category/[category].astro) — keep the nav in sync.
+const articles = await getCollection('articles', ({ data }) => !data.draft)
+const cats = CATEGORIES.filter((c) => articles.some((a) => a.data.category === c.slug))
+---
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="/">{SITE.name}</a>
+    <nav class="nav" aria-label="Categories">
+      {cats.map((c) => (
+        <a href={`/category/${c.slug}`}>{c.name}</a>
+      ))}
+    </nav>
+  </div>
+</header>

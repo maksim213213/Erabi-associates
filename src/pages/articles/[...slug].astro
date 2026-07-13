@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content'
+import ArticleLayout from '../../layouts/ArticleLayout.astro'
+import ReviewBox from '../../components/ReviewBox.astro'
+import Listicle from '../../components/Listicle.astro'
+import ComparisonTable from '../../components/ComparisonTable.jsx'
+import { amazonLink } from '../../data/site.js'
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft)
+  return articles.map((article) => {
+    const related = articles
+      .filter((a) => a.data.category === article.data.category && a.id !== article.id)
+      .slice(0, 3)
+    return { params: { slug: article.id }, props: { article, related } }
+  })
+}
+
+const { article, related } = Astro.props
+const d = article.data
+const { Content } = await render(article)
+
+// For the comparison island, pre-build tagged Amazon URLs (site config lives
+// server-side; the island stays free of it).
+const tableProducts =
+  d.type === 'comparison'
+    ? [...d.products]
+        .sort((a, b) => a.order - b.order)
+        .map((p) => ({ ...p, amazonUrl: amazonLink(p.amazon) }))
+    : []
+---
+<ArticleLayout article={article} related={related}>
+  {d.type === 'review' && (
+    <ReviewBox product={d.product} rating={d.rating} verdict={d.verdict} />
+  )}
+
+  {d.type === 'comparison' && (
+    <ComparisonTable client:visible columns={d.columns} products={tableProducts} />
+  )}
+
+  {d.type === 'listicle' && <Listicle items={d.items} />}
+
+  <div class="prose">
+    <Content />
+  </div>
+</ArticleLayout>

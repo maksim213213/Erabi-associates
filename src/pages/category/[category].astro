@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ArticleCard from '../../components/ArticleCard.astro'
+import { CATEGORIES, categoryBySlug } from '../../data/site.js'
+
+export async function getStaticPaths() {
+  // Only generate pages for categories that actually have content.
+  const articles = await getCollection('articles', ({ data }) => !data.draft)
+  return CATEGORIES.filter((c) =>
+    articles.some((a) => a.data.category === c.slug)
+  ).map((c) => ({ params: { category: c.slug } }))
+}
+
+const { category } = Astro.params
+const cat = categoryBySlug(category)
+const articles = await getCollection(
+  'articles',
+  ({ data }) => !data.draft && data.category === category
+)
+---
+<BaseLayout title={`${cat?.name ?? category} guides`} description={cat?.blurb ?? ''}>
+  <div class="wrap">
+    <header class="hero">
+      <p class="hero__eyebrow">{cat?.icon} Category</p>
+      <h1 class="hero__title">{cat?.name ?? category}</h1>
+      <p class="hero__subtitle">{cat?.blurb}</p>
+    </header>
+    {articles.length === 0 ? (
+      <p class="hero__subtitle">No articles here yet — check back soon.</p>
+    ) : (
+      <div class="grid">{articles.map((a) => <ArticleCard article={a} />)}</div>
+    )}
+  </div>
+</BaseLayout>

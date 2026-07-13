@@ -1,0 +1,31 @@
+---
+import { categoryBySlug } from '../data/site.js'
+const { article } = Astro.props            // a collection entry
+const d = article.data
+const cat = categoryBySlug(d.category)
+const cover =
+  d.heroImage ||
+  (d.type === 'review' && d.product?.image) ||
+  (d.type === 'listicle' && d.items?.[0]?.image) ||
+  (d.type === 'comparison' && d.products?.[0]?.image) ||
+  ''
+const kind = { review: 'Review', comparison: 'Comparison', listicle: 'Top picks' }[d.type] ?? 'Guide'
+---
+<a class="acard" href={`/articles/${article.id}`}>
+  {cover && (
+    <img
+      class="acard__img"
+      src={cover}
+      alt={d.title}
+      width="320"
+      height="200"
+      loading="lazy"
+      decoding="async"
+    />
+  )}
+  <div class="acard__body">
+    <span class="acard__tag">{cat?.name ?? d.category} · {kind}</span>
+    <h3 class="acard__title">{d.title}</h3>
+    <p class="acard__desc">{d.description}</p>
+  </div>
+</a>

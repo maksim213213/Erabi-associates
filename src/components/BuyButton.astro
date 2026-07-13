@@ -1,0 +1,11 @@
+---
+import { amazonLink } from '../data/site.js'
+const { amazon, label = 'Check price on Amazon' } = Astro.props
+// No product link → render nothing rather than a dead '#' with rel=sponsored.
+const href = amazon ? amazonLink(amazon) : null
+---
+{href && (
+  <a class="buy" href={href} target="_blank" rel="sponsored nofollow noopener noreferrer">
+    {label} <span aria-hidden="true">↗</span>
+  </a>
+)}

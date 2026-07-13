@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE } from '../data/site.js'
+---
+<BaseLayout title="Affiliate Disclosure" description={`How ${SITE.name} makes money.`}>
+  <div class="wrap prose" style="padding:40px 0">
+    <h1 class="hero__title">Affiliate Disclosure</h1>
+    <p>{SITE.name} is a participant in the Amazon Services LLC Associates Program,
+      an affiliate advertising program designed to provide a means for sites to
+      earn advertising fees by advertising and linking to Amazon.com.</p>
+    <p>When you click an affiliate link on this site and make a purchase, we may
+      earn a commission at no additional cost to you. This never affects the
+      price you pay, and it never influences our recommendations — we only
+      suggest products we believe are worth your money.</p>
+    <p>Prices and availability shown are accurate as of the date each article was
+      last updated and are subject to change.</p>
+  </div>
+</BaseLayout>

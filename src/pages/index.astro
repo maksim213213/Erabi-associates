@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ArticleCard from '../components/ArticleCard.astro'
+import { SITE, CATEGORIES } from '../data/site.js'
+
+const all = (await getCollection('articles', ({ data }) => !data.draft))
+const byUpdatedDesc = (a, b) => b.data.updated.valueOf() - a.data.updated.valueOf()
+const featured = all.filter((a) => a.data.featured).sort(byUpdatedDesc)
+const recent = all.filter((a) => !a.data.featured).sort(byUpdatedDesc)
+// Only link categories whose pages actually exist (they are generated
+// on demand in category/[category].astro once the first article lands).
+const usedCats = new Set(all.map((a) => a.data.category))
+const cats = CATEGORIES.filter((c) => usedCats.has(c.slug))
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  description: SITE.tagline,
+  url: (Astro.site ?? SITE.url).toString(),
+}
+---
+<BaseLayout title={SITE.name} description={SITE.tagline}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <div class="wrap">
+    <header class="hero">
+      <p class="hero__eyebrow">{SITE.name}</p>
+      <h1 class="hero__title">{SITE.tagline}</h1>
+      <p class="hero__subtitle">
+        Independent picks and side-by-side comparisons to help you buy the right
+        thing the first time — updated as prices and models change.
+      </p>
+    </header>
+
+    {featured.length > 0 && (
+      <>
+        <h2 class="section-title">Featured</h2>
+        <div class="grid">{featured.map((a) => <ArticleCard article={a} />)}</div>
+      </>
+    )}
+
+    <h2 class="section-title">Browse by category</h2>
+    <div class="cats">
+      {cats.map((c) => (
+        <a class="cat-card" href={`/category/${c.slug}`}>
+          <div class="cat-card__icon">{c.icon}</div>
+          <div class="cat-card__name">{c.name}</div>
+          <div class="cat-card__blurb">{c.blurb}</div>
+        </a>
+      ))}
+    </div>
+
+    {recent.length > 0 && (
+      <>
+        <h2 class="section-title">Latest articles</h2>
+        <div class="grid">{recent.map((a) => <ArticleCard article={a} />)}</div>
+      </>
+    )}
+  </div>
+</BaseLayout>

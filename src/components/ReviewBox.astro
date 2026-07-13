@@ -1,0 +1,40 @@
+---
+import Stars from './Stars.astro'
+import BuyButton from './BuyButton.astro'
+const { product, rating, verdict } = Astro.props
+---
+<div class="reviewbox">
+  <img
+    class="reviewbox__img"
+    src={product.image}
+    alt={product.name}
+    width="360"
+    height="360"
+    decoding="async"
+    fetchpriority="high"
+  />
+  <div>
+    <h2 class="reviewbox__name">{product.name}</h2>
+    <div class="detail__meta">
+      <Stars value={rating} />
+      {product.reviews != null && <span>{product.reviews.toLocaleString()} ratings</span>}
+      {product.badge && <span class="badge">{product.badge}</span>}
+    </div>
+    {(product.pros || product.cons) && (
+      <div class="proscons">
+        {product.pros && (
+          <div class="pros"><p class="proscons__title">Pros</p>
+            <ul>{product.pros.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        )}
+        {product.cons && (
+          <div class="cons"><p class="proscons__title">Cons</p>
+            <ul>{product.cons.map((c) => <li>{c}</li>)}</ul>
+          </div>
+        )}
+      </div>
+    )}
+    <p class="reviewbox__verdict"><strong>Our verdict:</strong> {verdict}</p>
+    <p style="margin-top:16px"><BuyButton amazon={product.amazon} /></p>
+  </div>
+</div>
