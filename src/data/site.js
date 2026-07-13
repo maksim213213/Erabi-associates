@@ -5,10 +5,12 @@ export const SITE = {
   name: 'PickWise',
   tagline: 'Honest Amazon buying guides, reviews & comparisons',
   // Your live domain. Used for sitemap, canonical URLs and OG tags.
-  url: 'https://your-site.netlify.app',
+  // Falls back to the Netlify-provided site URL when SITE_URL isn't set.
+  url: process.env.SITE_URL || process.env.URL || 'https://your-site.netlify.app',
   // Your Amazon Associates tracking id (e.g. yourtag-20).
   // Every affiliate link is tagged with this automatically.
-  affiliateTag: 'yourtag-20',
+  // Set the AFFILIATE_TAG environment variable to your real tag.
+  affiliateTag: process.env.AFFILIATE_TAG || 'yourtag-20',
   author: 'The PickWise Team',
   // Default social share image (1200x630) placed in /public.
   defaultOgImage: '/og-default.jpg',
