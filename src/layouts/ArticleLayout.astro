@@ -11,6 +11,7 @@ const cover =
   (d.type === 'review' && d.product?.image) ||
   (d.type === 'listicle' && d.items?.[0]?.image) ||
   (d.type === 'comparison' && d.products?.[0]?.image) ||
+  (d.type === 'routine' && d.steps?.[0]?.image) ||
   d.pinImage
 
 const updatedText = new Intl.DateTimeFormat('en-US', {
@@ -57,7 +58,9 @@ if (d.type === 'review') {
   }
 } else {
   const listItems =
-    d.type === 'listicle' ? d.items : [...d.products].sort((a, b) => a.order - b.order)
+    d.type === 'listicle' ? d.items
+    : d.type === 'routine' ? d.steps
+    : [...d.products].sort((a, b) => a.order - b.order)
   articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',

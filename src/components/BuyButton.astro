@@ -1,11 +1,22 @@
 ---
-import { amazonLink } from '../data/site.js'
-const { amazon, label = 'Check price on Amazon' } = Astro.props
+import { amazonLink, yesstyleLink } from '../data/site.js'
+const { amazon, yesstyle, label = 'Check price on Amazon' } = Astro.props
 // No product link → render nothing rather than a dead '#' with rel=sponsored.
 const href = amazon ? amazonLink(amazon) : null
+// YesStyle is optional and only lights up once SITE.yesstyleDeepLink is set.
+const ys = yesstyle ? yesstyleLink(yesstyle) : null
 ---
-{href && (
-  <a class="buy" href={href} target="_blank" rel="sponsored nofollow noopener noreferrer">
-    {label} <span aria-hidden="true">↗</span>
-  </a>
+{(href || ys) && (
+  <span class="buyrow">
+    {href && (
+      <a class="buy" href={href} target="_blank" rel="sponsored nofollow noopener noreferrer">
+        {label} <span aria-hidden="true">↗</span>
+      </a>
+    )}
+    {ys && (
+      <a class="buy buy--alt" href={ys} target="_blank" rel="sponsored nofollow noopener noreferrer">
+        Buy on YesStyle <span aria-hidden="true">↗</span>
+      </a>
+    )}
+  </span>
 )}

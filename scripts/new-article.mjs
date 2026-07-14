@@ -4,10 +4,10 @@ import { writeFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { CATEGORIES } from '../src/data/site.js'
 
-const [type, rawSlug, category = 'home'] = process.argv.slice(2)
-const types = ['review', 'comparison', 'listicle']
+const [type, rawSlug, category = 'sunscreen'] = process.argv.slice(2)
+const types = ['review', 'comparison', 'listicle', 'routine']
 if (!types.includes(type) || !rawSlug) {
-  console.log('Usage: npm run new -- <review|comparison|listicle> <slug> [category]')
+  console.log('Usage: npm run new -- <review|comparison|listicle|routine> <slug> [category]')
   process.exit(1)
 }
 
@@ -106,6 +106,28 @@ items:
 Intro paragraph.
 
 ## How we picked
+`,
+  routine: `---
+type: routine
+title: "TITLE"
+description: "One-line summary for search + social."
+${common}
+steps:
+  - step: "Step 1 · Cleanser"
+    when: "AM/PM"
+    name: "Product name"
+    image: "https://placehold.co/400x400"
+    amazon: "ASIN_OR_URL"
+    yesstyle: "Product name (YesStyle search) or full YesStyle URL"
+    rating: 4.6
+    reviews: 1000
+    bestFor: "All skin types"
+    blurb: "What this step does and why this product."
+---
+
+Intro paragraph.
+
+## How to build this routine
 `,
 }
 

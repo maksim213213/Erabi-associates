@@ -22,11 +22,18 @@ function Stars({ value }) {
   )
 }
 
-function Buy({ url }) {
+function Buy({ amazonUrl, yesstyleUrl }) {
   return (
-    <a className="buy" href={url} target="_blank" rel="sponsored nofollow noopener noreferrer">
-      Check price <span aria-hidden="true">↗</span>
-    </a>
+    <span className="buyrow">
+      <a className="buy" href={amazonUrl} target="_blank" rel="sponsored nofollow noopener noreferrer">
+        Check price <span aria-hidden="true">↗</span>
+      </a>
+      {yesstyleUrl && (
+        <a className="buy buy--alt" href={yesstyleUrl} target="_blank" rel="sponsored nofollow noopener noreferrer">
+          YesStyle <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </span>
   )
 }
 
@@ -123,7 +130,7 @@ export default function ComparisonTable({ columns, products }) {
                       {formatCell(p, col)}
                     </td>
                   ))}
-                  <td className="compare__cta"><Buy url={p.amazonUrl} /></td>
+                  <td className="compare__cta"><Buy amazonUrl={p.amazonUrl} yesstyleUrl={p.yesstyleUrl} /></td>
                 </tr>
                 {open && (
                   <tr><td colSpan={columns.length + 2}><Detail product={p} /></td></tr>
@@ -160,7 +167,7 @@ export default function ComparisonTable({ columns, products }) {
                   </div>
                 ))}
               </dl>
-              <Buy url={p.amazonUrl} />
+              <Buy amazonUrl={p.amazonUrl} yesstyleUrl={p.yesstyleUrl} />
               {open && <Detail product={p} />}
             </article>
           )

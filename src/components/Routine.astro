@@ -1,23 +1,27 @@
 ---
 import Stars from './Stars.astro'
 import BuyButton from './BuyButton.astro'
-const { items } = Astro.props
+const { steps } = Astro.props
 ---
-<div class="listicle">
-  {items.map((p, i) => (
-    <div class="litem">
-      <div class="litem__rank">{i + 1}</div>
+<ol class="routine">
+  {steps.map((p, i) => (
+    <li class="rstep">
+      <div class="rstep__num">{i + 1}</div>
       <img
-        class="litem__img"
+        class="rstep__img"
         src={p.image}
         alt={p.name}
-        width="400"
-        height="400"
+        width="180"
+        height="180"
         loading="lazy"
         decoding="async"
       />
-      <div>
-        <h3 class="litem__name">{p.name}</h3>
+      <div class="rstep__body">
+        <p class="rstep__step">
+          {p.step}
+          {p.when && <span class="pill pill--when">{p.when}</span>}
+        </p>
+        <h3 class="rstep__name">{p.name}</h3>
         <div class="litem__meta">
           {p.rating != null && <Stars value={p.rating} />}
           {p.reviews != null && <span>{p.reviews.toLocaleString()} ratings</span>}
@@ -27,6 +31,6 @@ const { items } = Astro.props
         {p.blurb && <p class="litem__blurb">{p.blurb}</p>}
         <BuyButton amazon={p.amazon} yesstyle={p.yesstyle} />
       </div>
-    </div>
+    </li>
   ))}
-</div>
+</ol>

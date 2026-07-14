@@ -3,8 +3,9 @@ import { getCollection, render } from 'astro:content'
 import ArticleLayout from '../../layouts/ArticleLayout.astro'
 import ReviewBox from '../../components/ReviewBox.astro'
 import Listicle from '../../components/Listicle.astro'
+import Routine from '../../components/Routine.astro'
 import ComparisonTable from '../../components/ComparisonTable.jsx'
-import { amazonLink } from '../../data/site.js'
+import { amazonLink, yesstyleLink } from '../../data/site.js'
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles', ({ data }) => !data.draft)
@@ -26,7 +27,7 @@ const tableProducts =
   d.type === 'comparison'
     ? [...d.products]
         .sort((a, b) => a.order - b.order)
-        .map((p) => ({ ...p, amazonUrl: amazonLink(p.amazon) }))
+        .map((p) => ({ ...p, amazonUrl: amazonLink(p.amazon), yesstyleUrl: yesstyleLink(p.yesstyle) }))
     : []
 ---
 <ArticleLayout article={article} related={related}>
@@ -39,6 +40,8 @@ const tableProducts =
   )}
 
   {d.type === 'listicle' && <Listicle items={d.items} />}
+
+  {d.type === 'routine' && <Routine steps={d.steps} />}
 
   <div class="prose">
     <Content />

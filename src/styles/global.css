@@ -247,6 +247,28 @@ img { max-width: 100%; display: block; }
 }
 .buy:active { transform: translate(0, 0); box-shadow: var(--shadow-press); }
 .buy:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* two retailers side by side (Amazon + YesStyle) */
+.buyrow { display: inline-flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.buy--alt { background: var(--surface); color: var(--ink); }
+.buy--alt:hover { background: var(--frame); }
+
+/* ---------- routine template (numbered skincare steps) ---------- */
+.routine { list-style: none; margin: 0; padding: 0; counter-reset: none; }
+.rstep { display: grid; grid-template-columns: 68px 180px 1fr; gap: 24px; padding: 30px 0; border-top: 2px solid var(--line-2); align-items: start; }
+.rstep:first-child { border-top: 0; }
+.rstep__num {
+  font-family: var(--font-display); font-weight: 900; font-size: 46px; line-height: 1;
+  color: var(--vermilion); font-variant-numeric: tabular-nums;
+}
+.rstep__img { border-radius: var(--radius); background: var(--surface); border: 1.5px solid var(--frame); }
+.rstep__step { font-family: var(--font-sans); font-size: 12.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
+.rstep__name { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.22; margin: 0 0 6px; }
+.pill--when { text-transform: none; letter-spacing: 0; border-color: var(--vermilion); color: var(--vermilion); }
+@media (max-width: 640px) {
+  .rstep { grid-template-columns: 48px 1fr; gap: 18px; padding: 26px 0; }
+  .rstep__img { grid-column: 1 / -1; max-width: 220px; }
+  .rstep__num { font-size: 38px; }
+}
 
 /* ---------- stars ---------- */
 .stars { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }

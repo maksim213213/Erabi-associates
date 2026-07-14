@@ -6,7 +6,7 @@ const base = {
   title: z.string(),
   description: z.string(),
   // Keep in sync with the slugs in src/data/site.js CATEGORIES.
-  category: z.enum(['home', 'kitchen', 'tech', 'fitness', 'outdoor']),
+  category: z.enum(['sunscreen', 'cleansers', 'toners', 'serums', 'moisturizers', 'routines']),
   updated: z.coerce.date(), // e.g. "July 2026" — coerced to a Date
   draft: z.boolean().default(false),
   featured: z.boolean().default(false),
@@ -21,6 +21,9 @@ const product = z.object({
   image: z.string(),
   // Either a full Amazon URL or a bare ASIN — amazonLink() tags it for you.
   amazon: z.string(),
+  // Optional secondary retailer: a full YesStyle product URL, or a product
+  // name (falls back to a tagged YesStyle search). yesstyleLink() handles it.
+  yesstyle: z.string().optional(),
   rating: z.number().min(0).max(5).optional(),
   reviews: z.number().optional(),
   badge: z.string().optional(),
@@ -69,6 +72,18 @@ const articles = defineCollection({
       type: z.literal('listicle'),
       ...base,
       items: z.array(product),
+    }),
+    // ---- TEMPLATE 4: step-by-step skincare routine ----
+    z.object({
+      type: z.literal('routine'),
+      ...base,
+      // Ordered steps; each step is a product plus a step label and when to use it.
+      steps: z.array(
+        product.extend({
+          step: z.string(), // e.g. "Step 1 · Cleanser"
+          when: z.enum(['AM', 'PM', 'AM/PM']).optional(),
+        })
+      ),
     }),
   ]),
 })

@@ -35,6 +35,6 @@ const { product, rating, verdict } = Astro.props
       </div>
     )}
     <p class="reviewbox__verdict"><strong>Our verdict:</strong> {verdict}</p>
-    <p style="margin-top:16px"><BuyButton amazon={product.amazon} /></p>
+    <p style="margin-top:16px"><BuyButton amazon={product.amazon} yesstyle={product.yesstyle} /></p>
   </div>
 </div>
