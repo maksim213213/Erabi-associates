@@ -2,7 +2,7 @@
 //  GLOBAL SITE CONFIG — edit these before you deploy.
 // ============================================================
 export const SITE = {
-  name: 'PickWise',
+  name: 'Erabi',
   tagline: 'Honest K-beauty & J-beauty reviews, routines & comparisons',
   // Your live domain. Used for sitemap, canonical URLs and OG tags.
   // Falls back to the Netlify-provided site URL when SITE_URL isn't set.
@@ -19,7 +19,7 @@ export const SITE = {
   //       Awin example: https://www.awin1.com/cread.php?awinmid=XXXX&awinaffid=YYYY&ued={url}
   //     Leave empty and YesStyle buttons stay hidden until you've joined a network.
   yesstyleDeepLink: process.env.YESSTYLE_DEEPLINK || '',
-  author: 'The PickWise Team',
+  author: 'The Erabi Team',
   // Default social share image (1200x630) placed in /public.
   defaultOgImage: '/og-default.jpg',
 }

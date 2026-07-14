@@ -1,5 +1,5 @@
 /* ==================================================================
-   PickWise — 和モダン / Showa-poster theme.
+   Erabi — 和モダン / Showa-poster theme.
    Warm washi paper, sumi ink, vermilion seals, terracotta & olive.
    Print-shop depth: hard offset shadows, poster frames, a paper grain.
    Bold gothic display (Zen Kaku) over an editorial serif (Shippori).
@@ -87,7 +87,7 @@ img { max-width: 100%; display: block; }
 :focus-visible { outline: 2px solid var(--vermilion); outline-offset: 2px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
 
-/* A reusable vermilion hanko seal — 選 ("select"), the PickWise mark. */
+/* A reusable vermilion hanko seal — 選 ("select"), the Erabi mark. */
 .seal {
   flex: none; display: inline-grid; place-items: center;
   width: 30px; height: 30px; border-radius: 6px;

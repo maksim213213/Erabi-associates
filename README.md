@@ -1,4 +1,4 @@
-# PickWise — Amazon Associates content hub
+# Erabi — Amazon Associates content hub
 
 A scalable, SEO-first affiliate site built with **Astro** (static HTML) + **React islands**
 for interactivity. Replaces the old single comparison one-pager. Add articles by dropping

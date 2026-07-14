@@ -1,4 +1,4 @@
-# PickWise — K/J-Beauty Content Plan
+# Erabi — K/J-Beauty Content Plan
 
 The site is now a **Korean & Japanese beauty** affiliate hub. Traffic strategy stays
 the same: **Google** (buyer-intent search) + **Pinterest** (routines, aesthetics).
