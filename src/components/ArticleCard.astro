@@ -8,6 +8,7 @@ const cover =
   (d.type === 'review' && d.product?.image) ||
   (d.type === 'listicle' && d.items?.[0]?.image) ||
   (d.type === 'comparison' && d.products?.[0]?.image) ||
+  (d.type === 'routine' && d.steps?.[0]?.image) ||
   ''
 const kind = { review: 'Review', comparison: 'Comparison', listicle: 'Top picks' }[d.type] ?? 'Guide'
 ---
