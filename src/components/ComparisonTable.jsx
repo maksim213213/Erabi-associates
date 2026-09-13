@@ -114,15 +114,17 @@ export default function ComparisonTable({ columns, products }) {
               <Fragment key={p.id}>
                 <tr className={`compare__row${p.highlight ? ' compare__row--best' : ''}`}>
                   <td className="compare__product">
-                    <img src={p.image} alt={p.name} className="compare__img"
-                         width="54" height="54" loading="lazy" decoding="async" />
-                    <div>
-                      <button type="button" className="compare__name compare__namebtn"
-                              aria-expanded={open} onClick={() => toggleOpen(p.id)}>
-                        {p.name}
-                        <span className="compare__chevron" aria-hidden="true">{open ? '▲' : '▼'}</span>
-                      </button>
-                      {p.badge && <span className="badge" style={{ marginLeft: 8 }}>{p.badge}</span>}
+                    <div className="compare__product-inner">
+                      <img src={p.image} alt={p.name} className="compare__img"
+                           width="76" height="76" loading="lazy" decoding="async" />
+                      <div>
+                        <button type="button" className="compare__name compare__namebtn"
+                                aria-expanded={open} onClick={() => toggleOpen(p.id)}>
+                          {p.name}
+                          <span className="compare__chevron" aria-hidden="true">{open ? '▲' : '▼'}</span>
+                        </button>
+                        {p.badge && <span className="badge" style={{ marginLeft: 8 }}>{p.badge}</span>}
+                      </div>
                     </div>
                   </td>
                   {columns.map((col) => (
@@ -148,7 +150,7 @@ export default function ComparisonTable({ columns, products }) {
             <article key={p.id} className={`mcard${p.highlight ? ' mcard--best' : ''}`}>
               <div className="mcard__head">
                 <img src={p.image} alt={p.name} className="mcard__img"
-                     width="56" height="56" loading="lazy" decoding="async" />
+                     width="112" height="112" loading="lazy" decoding="async" />
                 <div>
                   <p className="mcard__name">
                     <button type="button" className="compare__namebtn"
