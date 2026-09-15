@@ -12,10 +12,43 @@ const cats = CATEGORIES.filter((c) => articles.some((a) => a.data.category === c
       <span class="seal" aria-hidden="true">選</span>
       {SITE.name}<span class="brand__jp" aria-hidden="true">えらび</span>
     </a>
-    <nav class="nav" aria-label="Categories">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+      <span class="nav-toggle__icon" aria-hidden="true"></span>
+      <span class="sr-only">Open category menu</span>
+    </button>
+    <nav class="nav" id="site-menu" aria-label="Categories">
       {cats.map((c) => (
-        <a href={`/category/${c.slug}`}>{c.name}</a>
+        <a href={`/category/${c.slug}`}>
+          <span class="nav__icon" aria-hidden="true">{c.icon}</span>{c.name}
+        </a>
       ))}
     </nav>
   </div>
 </header>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle')
+  const menu = document.querySelector('#site-menu')
+
+  if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement) {
+    const label = toggle.querySelector('.sr-only')
+    const close = () => {
+      toggle.setAttribute('aria-expanded', 'false')
+      menu.classList.remove('nav--open')
+      if (label) label.textContent = 'Open category menu'
+    }
+
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true'
+      toggle.setAttribute('aria-expanded', String(open))
+      menu.classList.toggle('nav--open', open)
+      if (label) label.textContent = open ? 'Close category menu' : 'Open category menu'
+    })
+    menu.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLAnchorElement) close()
+    })
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close()
+    })
+  }
+</script>
